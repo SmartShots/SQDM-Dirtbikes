@@ -1,5 +1,5 @@
 # SQDM-Dirtbikes
-A VU Mod to replace the BMP/LAV in all of the Squad DeathMatch maps with Dirtbikes!
+A VU Mod to replace the BMP/LAV in Squad DeathMatch maps with Dirtbikes!
 
 # Currently a Work in Progress
 I have only just started work on this MOD and there are many more maps to get working but there are 2 working so far:
@@ -16,7 +16,10 @@ The MOD recognises when a Squad Deathmatch map is loaded on the server and will 
 - Spawn two groups of 4 Dirtbikes at opposite sides of the map.
 
 # Known Issues
-- The VU Client crashes when the next round occurs. I'm looking at ways to try and fix this.
+- The VU Client crashes when the next round occurs or you quit the game. I'm looking at ways to try and fix this.
 
 # Note:
 The Close Quarters Squad Deathmatch maps are excluded, they are too small to have Dirtbikes running around.
+
+# Thanks!
+This MOD was based on an original script by Janssent (https://github.com/J4nssent), who also helped me get to grips with how VU stores its data so massive thanks to him!
