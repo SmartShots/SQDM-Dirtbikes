@@ -12,5 +12,5 @@ The MOD recognises when a Squad Deathmatch map is loaded on the server and will 
 - Remove the BMP/LAV spawns from the map.
 - Spawn two groups of 4 Dirtbikes at opposite sides of the map.
 
-#Note:
+# Note:
 The Close Quarters Squad Deathmatch maps are excluded, they are too small to have Dirtbikes running around.
