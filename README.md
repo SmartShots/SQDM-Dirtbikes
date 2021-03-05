@@ -20,3 +20,6 @@ The MOD recognises when a Squad Deathmatch map is loaded on the server and will 
 
 # Note:
 The Close Quarters Squad Deathmatch maps are excluded, they are too small to have Dirtbikes running around.
+
+# Thanks!
+This MOD was based on an original script by Janssent (https://github.com/J4nssent), who also helped me get to grips with how VU stores its data so massive thanks to him!
