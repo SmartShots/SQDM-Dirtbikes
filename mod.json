@@ -1,7 +1,7 @@
 {
 	"Name": "SQDM-Dirtbikes",
 	"Authors": ["SmartShots"],
-	"Description": "A VU Mod to replace the BMP/LAV in all of the Squad DeathMatch maps with Dirtbikes!",
+	"Description": "A VU Mod to replace the BMP/LAV in Squad DeathMatch maps with Dirtbikes!",
 	"URL": "https://github.com/SmartShots/SQDM-Dirtbikes",
 	"Version": "0.0.1",
 	"HasWebUI": false,
