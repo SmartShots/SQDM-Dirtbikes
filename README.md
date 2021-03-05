@@ -16,7 +16,7 @@ The MOD recognises when a Squad Deathmatch map is loaded on the server and will 
 - Spawn two groups of 4 Dirtbikes at opposite sides of the map.
 
 # Known Issues
-- The VU Client crashes when the next round occurs. I'm looking at ways to try and fix this.
+- The VU Client crashes when the next round occurs or you quit the game. I'm looking at ways to try and fix this.
 
 # Note:
 The Close Quarters Squad Deathmatch maps are excluded, they are too small to have Dirtbikes running around.
