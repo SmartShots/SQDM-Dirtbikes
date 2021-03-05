@@ -1,12 +1,12 @@
 # SQDM-Dirtbikes
 A VU Mod to replace the BMP/LAV in all of the Squad DeathMatch maps with Dirtbikes!
 
-#Currently a Work in Progress
+# Currently a Work in Progress
 I have only just started work on this MOD and there are many more maps to get working but there are 2 working so far.
 
 Use at your own risk until I can get this released. ;-)
 
-#What does the MOD actually do?
+# What does the MOD actually do?
 The MOD recognises when a Squad Deathmatch map is loaded on the server and will then:
 
 - Remove the BMP/LAV spawns from the map.
