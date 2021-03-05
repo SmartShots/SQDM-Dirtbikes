@@ -1,7 +1,11 @@
 CONFIG = {}
-require("__shared/MP_017")
-require("__shared/MP_001")
-
+ -- Comment out any of the below 'require' lines if you don't want particular maps to be affected by the MOD
+require("__shared/MP_017") -- Noshahr Canals
+require("__shared/MP_001") -- Grand Bazaar
+require("__shared/MP_003") -- Teheran Highway - doesn't crash
+require("__shared/MP_007") -- Caspian Border - doesn't crash
+require("__shared/MP_011") -- Seine Crossing
+require("__shared/MP_012") -- Operation Firestorm
 
 local networkIndex
 
@@ -117,12 +121,11 @@ Events:Subscribe('Level:LoadResources', function(levelName, gameMode, isDedicate
 	end
 
 	if g_CurrentConfig.SpawnsToDisable ~= nil then
+		print("Disabling BMP/LAV spawn")
 		for _, spawnInfo in ipairs(g_CurrentConfig.SpawnsToDisable) do
 			ResourceManager:RegisterInstanceLoadHandlerOnce(spawnInfo.partitionGuid, spawnInfo.instanceGuid, function(instance)
 				local spawnReference = VehicleSpawnReferenceObjectData(instance)
 				spawnReference:MakeWritable()
-
-				print("Disabling vanilla spawn")
 
 				spawnReference.enabled = false
 			end)
