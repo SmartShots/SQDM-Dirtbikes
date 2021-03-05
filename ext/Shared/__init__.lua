@@ -2,10 +2,16 @@ CONFIG = {}
  -- Comment out any of the below 'require' lines if you don't want particular maps to be affected by the MOD
 require("__shared/MP_017") -- Noshahr Canals
 require("__shared/MP_001") -- Grand Bazaar
-require("__shared/MP_003") -- Teheran Highway - doesn't crash
-require("__shared/MP_007") -- Caspian Border - doesn't crash
+require("__shared/MP_003") -- Teheran Highway - doesn't crash on quit
+require("__shared/MP_007") -- Caspian Border - doesn't crash on quit
 require("__shared/MP_011") -- Seine Crossing
 require("__shared/MP_012") -- Operation Firestorm
+require("__shared/MP_013") -- Damavand Peak
+require("__shared/MP_018") -- Kharg Island
+require("__shared/MP_Subway") -- Operation Metro
+require("__shared/XP1_001") -- Strike at Karkand
+require("__shared/XP1_002") -- Gulf of Oman
+require("__shared/XP1_003") -- Sharqi Peninsula
 
 local networkIndex
 
@@ -138,6 +144,10 @@ Events:Subscribe('Level:RegisterEntityResources', function(levelData)
 	if bundleHook ~= nil then
 		bundleHook:Uninstall()
 		bundleHook = nil
+	end
+
+	if g_CurrentConfig == nil then
+		return
 	end
 
 	for _, bundleInfo in ipairs(g_CurrentConfig.BundlesToMount) do
