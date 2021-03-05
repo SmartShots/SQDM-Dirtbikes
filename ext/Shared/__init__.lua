@@ -1,0 +1,151 @@
+CONFIG = {}
+require("__shared/MP_017")
+require("__shared/MP_001")
+
+
+local networkIndex
+
+function ResetIndex()
+	networkIndex = 0x7FFF
+end
+
+function GetIndex()
+	networkIndex = networkIndex + 1
+	return networkIndex
+end
+
+function GetVehicleSpawnReference(spawnConfig)
+	local vehicleBlueprint = ResourceManager:SearchForDataContainer(spawnConfig.Blueprint)
+
+	if vehicleBlueprint == nil then
+		print("Could not find Dirtbike blueprint: "..spawnConfig.Blueprint)
+		return
+	end
+
+	local vehicleSpawnReference = VehicleSpawnReferenceObjectData()
+	vehicleSpawnReference.disregardSpawnAllowedSetting = true
+	vehicleSpawnReference.indexInBlueprint = GetIndex()
+	vehicleSpawnReference.blueprint = VehicleBlueprint(vehicleBlueprint)
+	vehicleSpawnReference.blueprintTransform = spawnConfig.Transform
+	vehicleSpawnReference.initialSpawnDelay = spawnConfig.InitialSpawnDelay
+	vehicleSpawnReference.spawnDelay = spawnConfig.RespawnDelay
+	vehicleSpawnReference.maxCount = 0								-- number of times that each individual Dirtbike will respawn (0 is infinite)
+	vehicleSpawnReference.maxCountSimultaneously = 1				-- number of Dirtbikes that can be spawned from this object at the same time
+	vehicleSpawnReference.totalCountSimultaneouslyOfType = 8		-- number of Dirtbikes that can be spawned by any spawn object with the same vehicle
+	vehicleSpawnReference.applyDamageToAbandonedVehicles = true     -- Whether the Dirtbikes take damage when left
+	vehicleSpawnReference.autoSpawn = true
+
+	return vehicleSpawnReference
+end
+
+function OnSubWorldLoaded(instance)
+	local registry = RegistryContainer()
+	ResetIndex()
+
+	local worldPart = WorldPartData()
+	registry.blueprintRegistry:add(worldPart)
+
+	for _, spawnConfig in ipairs(g_CurrentConfig.VehicleSpawns) do
+		local spawnReference = GetVehicleSpawnReference(spawnConfig)
+		if spawnReference == nil then
+			return
+		end
+		worldPart.objects:add(spawnReference)
+		registry.referenceObjectRegistry:add(spawnReference)
+	end
+
+	local worldPartReference = WorldPartReferenceObjectData()
+	worldPartReference.indexInBlueprint = GetIndex()
+	worldPartReference.blueprint = worldPart
+	registry.referenceObjectRegistry:add(worldPartReference)
+
+	local subWorldData = SubWorldData(instance)
+	subWorldData:MakeWritable()
+	subWorldData.objects:add(worldPartReference)
+
+	ResourceManager:AddRegistry(registry, ResourceCompartment.ResourceCompartment_Game)
+
+	print("Added Dirtbike spawns")
+end
+
+
+local bundleHook = nil	
+
+function OnLoadBundles(hookCtx, bundles, compartment)
+	if #bundles == 1 and bundles[1] == SharedUtils:GetLevelName() then
+		local newBundles = {}
+		for _, bundleInfo in ipairs(g_CurrentConfig.BundlesToMount) do
+			for _, bundleName in ipairs(bundleInfo.Bundles or {}) do
+				table.insert(newBundles, bundleName)
+			end
+		end
+
+		table.insert(newBundles, bundles[1])
+
+		print("Injecting bundles")
+
+		hookCtx:Pass(newBundles, compartment)
+	end
+end
+
+Events:Subscribe('Level:LoadResources', function(levelName, gameMode, isDedicatedServer)
+    local levelId = levelName:reverse():match('[^/]+'):reverse()
+
+    if CONFIG[levelId] == nil or CONFIG[levelId][gameMode] == nil then
+        return
+    end
+
+    g_CurrentConfig = CONFIG[levelId][gameMode]
+
+	if g_CurrentConfig == nil then
+		return
+	end
+
+	print("Found config for current level")
+
+	if g_CurrentConfig.SubWorldGuids ~= nil and g_CurrentConfig.VehicleSpawns ~= nil then
+		ResourceManager:RegisterInstanceLoadHandlerOnce(g_CurrentConfig.SubWorldGuids.partitionGuid, g_CurrentConfig.SubWorldGuids.instanceGuid, OnSubWorldLoaded)
+	end
+
+	if g_CurrentConfig.BundlesToMount ~= nil then
+		for _, bundleInfo in ipairs(g_CurrentConfig.BundlesToMount) do
+			print("Mounting '"..tostring(bundleInfo.SuperBundle).."' superbundle")
+			ResourceManager:MountSuperBundle(bundleInfo.SuperBundle)
+		end
+
+		bundleHook = Hooks:Install('ResourceManager:LoadBundles', 1, OnLoadBundles)
+	end
+
+	if g_CurrentConfig.SpawnsToDisable ~= nil then
+		for _, spawnInfo in ipairs(g_CurrentConfig.SpawnsToDisable) do
+			ResourceManager:RegisterInstanceLoadHandlerOnce(spawnInfo.partitionGuid, spawnInfo.instanceGuid, function(instance)
+				local spawnReference = VehicleSpawnReferenceObjectData(instance)
+				spawnReference:MakeWritable()
+
+				print("Disabling vanilla spawn")
+
+				spawnReference.enabled = false
+			end)
+		end
+	end
+end)
+
+
+Events:Subscribe('Level:RegisterEntityResources', function(levelData)
+	if bundleHook ~= nil then
+		bundleHook:Uninstall()
+		bundleHook = nil
+	end
+
+	for _, bundleInfo in ipairs(g_CurrentConfig.BundlesToMount) do
+		if bundleInfo.RegistryGuids ~= nil then
+			local registry = ResourceManager:SearchForInstanceByGuid(bundleInfo.RegistryGuids.instanceGuid)
+
+			print("Adding "..bundleInfo.SuperBundle.." registry")
+
+			ResourceManager:AddRegistry(registry, ResourceCompartment.ResourceCompartment_Game)
+		end
+	end
+
+	g_CurrentConfig = nil
+end)
