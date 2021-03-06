@@ -36,9 +36,6 @@ The MOD recognises when one of the above Squad Deathmatch maps are loaded on the
 - Remove the BMP/LAV spawns from the map.
 - Spawn two groups of 4 Dirtbikes at opposite sides of the map.
 
-# Known Issues
-- On most maps the VU Client crashes when you quit the game. I'm looking at ways to try and fix this.
-
 # Notes:
 The Close Quarters Squad Deathmatch maps are excluded, they are too small to have Dirtbikes running around.
 
