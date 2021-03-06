@@ -2,7 +2,7 @@
 A VU Mod to replace the BMP/LAV with Dirtbikes in Squad DeathMatch maps!
 
 # Release 1.0.0
-This MOD is now ready for release, it is now working with the 25 Squad DeathMatch Maps listed here:
+This MOD is now working with the 25 Squad DeathMatch Maps listed here:
 
 - Grand Bazaar
 - Noshahr Canals
