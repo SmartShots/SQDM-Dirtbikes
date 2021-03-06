@@ -12,6 +12,19 @@ require("__shared/MP_Subway") -- Operation Metro
 require("__shared/XP1_001") -- Strike at Karkand
 require("__shared/XP1_002") -- Gulf of Oman
 require("__shared/XP1_003") -- Sharqi Peninsula
+require("__shared/XP1_004") -- Wake Island
+require("__shared/XP3_Desert") -- Bandar Desert
+require("__shared/XP3_Alborz") -- Alborz Mountains
+require("__shared/XP3_Shield") -- Armored Shield
+require("__shared/XP3_Valley") -- Death Valley
+require("__shared/XP4_FD") -- Markaz Monolith
+require("__shared/XP4_Parl") -- Azadi Palace
+require("__shared/XP4_Quake") -- Epicenter
+require("__shared/XP4_Rubble") -- Talah Market
+require("__shared/XP5_001") -- Operation Riverside
+require("__shared/XP5_002") -- Nebandan Flats
+require("__shared/XP5_003") -- Kiasar Railroad
+require("__shared/XP5_004") -- Sabalan Pipeline
 
 local networkIndex
 
